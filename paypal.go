@@ -39,6 +39,7 @@ type PayPalResponse struct {
 	Values url.Values
 	usedSandbox bool
 	Invnum string
+	TransactionId string
 }
 
 type PayPalError struct {
@@ -120,6 +121,7 @@ func (pClient *PayPalClient) PerformRequest(values url.Values) (*PayPalResponse,
 		response.Build = responseValues.Get("2975009")
 		response.Values = responseValues
 		response.Invnum = responseValues.Get("PAYMENTREQUEST_0_INVNUM")
+		response.TransactionId = responseValues.Get("PAYMENTREQUEST_0_TRANSACTIONID")
 
 		errorCode := responseValues.Get("L_ERRORCODE0")
 		if len(errorCode) != 0 || strings.ToLower(response.Ack) == "failure" || strings.ToLower(response.Ack) == "failurewithwarning" {

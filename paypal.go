@@ -139,80 +139,6 @@ func (pClient *PayPalClient) PerformRequest(values url.Values) (*PayPalResponse,
 	return response, err
 }
 
-
-/*
-map[
-ACK:[Success]
-BUILD:[55698494]
-CORRELATIONID:[9b81bd1f79546]
-INSURANCEOPTIONSELECTED:[false]
-PAYMENTINFO_0_ACK:[Success]
-PAYMENTINFO_0_AMT:[1.00]
-PAYMENTINFO_0_CURRENCYCODE:[USD]
-PAYMENTINFO_0_ERRORCODE:[0]
-PAYMENTINFO_0_FEEAMT:[0.33]
-PAYMENTINFO_0_ORDERTIME:[2021-06-14T07:34:08Z]
-PAYMENTINFO_0_PAYMENTSTATUS:[Completed]
-PAYMENTINFO_0_PAYMENTTYPE:[instant]
-PAYMENTINFO_0_PENDINGREASON:[None]
-PAYMENTINFO_0_PROTECTIONELIGIBILITY:[Eligible]
-PAYMENTINFO_0_PROTECTIONELIGIBILITYTYPE:[ItemNotReceivedEligible,UnauthorizedPaymentEligible]
-PAYMENTINFO_0_REASONCODE:[None]
-PAYMENTINFO_0_SECUREMERCHANTACCOUNTID:[P2DAAH6XJ5996]
-PAYMENTINFO_0_SELLERPAYPALACCOUNTID:[sb-uuum436476396@business.example.com]
-PAYMENTINFO_0_TAXAMT:[0.00]
-PAYMENTINFO_0_TRANSACTIONID:[8WB29409YN938500U]
-PAYMENTINFO_0_TRANSACTIONTYPE:[expresscheckout]
-SHIPPINGOPTIONISDEFAULT:[false]
-SUCCESSPAGEREDIRECTREQUESTED:[false]
-TIMESTAMP:[2021-06-14T07:34:08Z]
-TOKEN:[EC-3A590955NS779441R]
-VERSION:[84]] true}
-*/
-
-
-/*
-map[
-ACK:[Success]
-ADDRESSSTATUS:[Confirmed]
-AMT:[1.00]
-BILLINGAGREEMENTACCEPTEDSTATUS:[0]
-BUILD:[55698494]
-CHECKOUTSTATUS:[PaymentActionCompleted]
-CORRELATIONID:[f0b2efe209c62]
-COUNTRYCODE:[US]
-CURRENCYCODE:[USD]
-EMAIL:[sb-47awgh6155709@personal.example.com]
-FIRSTNAME:[John]
-HANDLINGAMT:[0.00]
-INSURANCEAMT:[0.00]
-INSURANCEOPTIONOFFERED:[false]
-INVNUM:[5d617644e6324c29bd3de7718e35232d]
-LASTNAME:[Doe]
-PAYERID:[H97ABK6WNY7NU]
-PAYERSTATUS:[verified]
-PAYMENTREQUESTINFO_0_ERRORCODE:[0]
-PAYMENTREQUESTINFO_0_TRANSACTIONID:[5X372240SX0980714]
-PAYMENTREQUEST_0_AMT:[1.00]
-PAYMENTREQUEST_0_CURRENCYCODE:[USD]
-PAYMENTREQUEST_0_HANDLINGAMT:[0.00]
-PAYMENTREQUEST_0_INSURANCEAMT:[0.00]
-PAYMENTREQUEST_0_INSURANCEOPTIONOFFERED:[false]
-PAYMENTREQUEST_0_INVNUM:[5d617644e6324c29bd3de7718e35232d]
-PAYMENTREQUEST_0_SELLERPAYPALACCOUNTID:[sb-uuum436476396@business.example.com]
-PAYMENTREQUEST_0_SHIPDISCAMT:[0.00]
-PAYMENTREQUEST_0_SHIPPINGAMT:[0.00]
-PAYMENTREQUEST_0_TAXAMT:[0.00]
-PAYMENTREQUEST_0_TRANSACTIONID:[5X372240SX0980714]
-SHIPDISCAMT:[0.00]
-SHIPPINGAMT:[0.00]
-TAXAMT:[0.00]
-TIMESTAMP:[2021-06-14T07:48:18Z]
-TOKEN:[EC-4AJ496724V5128253]
-TRANSACTIONID:[5X372240SX0980714]
-VERSION:[84]] true}
- */
-
 func (pClient *PayPalClient) SetExpressCheckoutDigitalGoods(paymentAmount float64, currencyCode string, returnURL, cancelURL string, invnum string, goods []PayPalDigitalGood) (*PayPalResponse, error) {
 	values := url.Values{}
 	values.Set("METHOD", "SetExpressCheckout")
@@ -238,12 +164,10 @@ func (pClient *PayPalClient) SetExpressCheckoutDigitalGoods(paymentAmount float6
 	return pClient.PerformRequest(values)
 }
 
-// Convenience function for Sale (Charge)
 func (pClient *PayPalClient) DoExpressCheckoutSale(token, payerId, currencyCode string, finalPaymentAmount float64) (*PayPalResponse, error) {
 	return pClient.DoExpressCheckoutPayment(token, payerId, "Sale", currencyCode, finalPaymentAmount)
 }
 
-// paymentType can be "Sale" or "Authorization" or "Order" (ship later)
 func (pClient *PayPalClient) DoExpressCheckoutPayment(token, payerId, paymentType, currencyCode string, finalPaymentAmount float64) (*PayPalResponse, error) {
 	values := url.Values{}
 	values.Set("METHOD", "DoExpressCheckoutPayment")
